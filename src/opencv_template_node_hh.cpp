@@ -28,7 +28,7 @@ class ImageConverter
     private: 
     	// NodeHandle ROS1
     	ros::NodeHandle nh_;
-1
+
     	// Image used 
     	image_transport::ImageTransport it_; 				// Se define el objeto it_ de la clase ImageTransport
     	image_transport::Subscriber topic1_sub__image_input; 	// Crea la variable del suscriptor para adquirir la imagen de la cámara desde ROS
@@ -41,11 +41,11 @@ class ImageConverter
   	ImageConverter() : it_(nh_)
   	{
     	    // Declaración de Topics
-       	    topic1_sub__image_input = it_.subscribe(TOPIC1_SUB__IMAGE_INPUT, 1, &ImageConverter::imageCb, this);  // Se define el suscriptor con el nombre del topic y un callback que se 																definirá más adelante, por eso la expresión "this" al final
-   	    topic1_pub__image_output = it_.advertise(TOPIC1_PUB__IMAGE_OUTPUT, 1);						// Se define el publicador para enviar la imagen procesada
+      	  topic1_sub__image_input = it_.subscribe(TOPIC1_SUB__IMAGE_INPUT, 1, &ImageConverter::imageCb, this);  // Se define el suscriptor con el nombre del topic y un callback que se 																definirá más adelante, por eso la expresión "this" al final
+   	  topic1_pub__image_output = it_.advertise(TOPIC1_PUB__IMAGE_OUTPUT, 1);						// Se define el publicador para enviar la imagen procesada
 
 	    // Crear una ventana para publicar en ella la imagen
-    	    cv::namedWindow(OPENCV_WINDOW);
+    	  cv::namedWindow(OPENCV_WINDOW);
   	}
 
 	/* Método destructor */

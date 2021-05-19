@@ -1,32 +1,32 @@
-/* EXAMPLE 5 USING OPENCV
+/* Plantilla ejemplo 5
 /*
-/*   Base: Hough Circle Transform
+/*   Transformacion circular de HPUGH
 /*   from = https://docs.opencv.org/2.4/doc/tutorials/imgproc/imgtrans/hough_circle/hough_circle.html#hough-circle
 /*
-/*   Base to draw into OpenCV: 
+/*   OPENCV
 /*   from = https://docs.opencv.org/2.4/modules/core/doc/drawing_functions.html
 /*   
-/*   Example in ROS:
+/*   Ejemplo ROS
 /*   from: https://github.com/epsilonorion/ros_tutorials/blob/master/opencv_tut/src/findCircle.cpp
-/* 
-/*   it was modificated by Hernán Hernández to be use like own template 
 */
 
 // Includes
-#include <ros/ros.h>
-#include <stdio.h> // needed to use the class: "vector"
-#include <image_transport/image_transport.h>
-#include <cv_bridge/cv_bridge.h>
-#include <sensor_msgs/image_encodings.h>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <opencv2/highgui/highgui.hpp>
+#include <ros/ros.h>				//Importa libreria ROS
+
+#include <stdio.h> 				//Obligatoria para usar la clase "vector"
+
+#include <image_transport/image_transport.h>	//Clase para manipular imagenes
+#include <cv_bridge/cv_bridge.h>		//Puente entre OpenCv y ROS para manejar OpenCv desde ROS
+#include <sensor_msgs/image_encodings.h>	//Herramientas para manipular las imagenes
+#include <opencv2/imgproc/imgproc.hpp>		//Libreria propia de opencv (Procesamiento de imagenes)
+#include <opencv2/highgui/highgui.hpp>		//Libreria propia de opencv (Diseñar interfaces graficas (poner imagen en ventana))
 
 /*#include <iostream>
 #include "std_msgs/String.h"
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/image_encodings.h>
-#include <opencv2/imgproc/imgproc.hpp>     //make sure to include the relevant headerfiles
+#include <opencv2/imgproc/imgproc.hpp>     //Asegurar los encabezados
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
@@ -37,37 +37,41 @@
 #include <highgui.h>*/
 
 // Defines - General
-#define    NODE_NAME       	"opencv_houghCircleTransform_hh"
-#define    OPENCV_WINDOW1       "Original Image"
-#define    OPENCV_WINDOW2       "Image Filtered"
+#define    NODE_NAME       	"opencv_houghCircleTransform_hh"	//Renombre de nodo
+#define    OPENCV_WINDOW1       "Original Image"			//Renombre de ventana para imagen original
+#define    OPENCV_WINDOW2       "Image Filtrada"			//Renombre de ventana para imagen procesada
+
 
 // Defines - Topics 
-#define    TOPIC1_SUB__IMAGE_INPUT      "/usb_cam/image_raw" 		// Image get from camera (raw). 
-#define    TOPIC1_PUB__IMAGE_OUTPUT     "/image_converter/output_video" // Image public to ROS (processed).
+#define    TOPIC1_SUB__IMAGE_INPUT      "/usb_cam/image_raw" 		//Imagen original de la camara (suscriptor)
+#define    TOPIC1_PUB__IMAGE_OUTPUT     "/image_converter/output_video" //Imagen publica para ROS (Publicador).
 
 //***CLASS: Image Conver (OpenCV)***
 class ImageConverter
 {
     private: 
     	// NodeHandle ROS
-    	ros::NodeHandle nh_;
+    	ros::NodeHandle nh_;	//Clase NodeHandle de la libreria de ROS
 
-    	// Image used 
-    	image_transport::ImageTransport it_; // Object it_ from image transport clase (used to the digital image processing)
-    	image_transport::Subscriber topic1_sub__image_input; // Image get from camera (raw). ROS format (Topic)
-    	image_transport::Publisher topic1_pub__image_output; // Image public to ROS (processed). ROS format (Topic)
+    	// Imagen usada 
+    	image_transport::ImageTransport it_;	// Object it_ from image transport clase (utilizado para el procesamiento de imagenes)
+    	image_transport::Subscriber topic1_sub__image_input;	//Imagen de la cámara (sin procesar). Formato ROS (Topic)
+    	image_transport::Publisher topic1_pub__image_output;	//Imagen publica para ROS (procesada). Formato ROS (Topic)
 
     public:
 
 	/* Constructor Method. 
 	   TODO */
-  	ImageConverter() : it_(nh_)
+  	ImageConverter() : it_(nh_)	//Hereda elementos de it_ y atributo es de nh_
   	{
     	    // Topics declaration
-       	    topic1_sub__image_input = it_.subscribe(TOPIC1_SUB__IMAGE_INPUT, 1, &ImageConverter::imageCb, this); 
-   	    topic1_pub__image_output = it_.advertise(TOPIC1_PUB__IMAGE_OUTPUT, 1);
+       	    topic1_sub__image_input = it_.subscribe(TOPIC1_SUB__IMAGE_INPUT, 1, &ImageConverter::imageCb, this); //Topic suscriptor
+   	    			      	//(Nombre del topic, bufer de la comunicación, Callback(función o método), dentro de si mismo)			
+		
+	    topic1_pub__image_output = it_.advertise(TOPIC1_PUB__IMAGE_OUTPUT, 1); //Topic publicador 
+										   //(Nombre del topic, bufer de la comunicación)											
 
-	    // Create the GUI Windows (where print the images)
+	    // Crea la GUI Windows (donde imprime las imagenes)
     	    cv::namedWindow(OPENCV_WINDOW1);
 	    cv::namedWindow(OPENCV_WINDOW2);
   	}
@@ -75,90 +79,95 @@ class ImageConverter
 	/* Desctructor Method */
   	~ImageConverter()
   	{
-	    // close the GUI Windows
-    	    cv::destroyWindow(OPENCV_WINDOW1);
-	    cv::destroyWindow(OPENCV_WINDOW2);
+	    // Cierra la GUI Windows
+    	    cv::destroyWindow(OPENCV_WINDOW1);	//Opencv destruye la ventana creada
+	    cv::destroyWindow(OPENCV_WINDOW2);	//Opencv destruye la ventana creada
   	}
 
-	/* associate to "TOPIC1_SUB__IMAGE_INPUT" which get  Image get from camera (raw) */
-	void imageCb(const sensor_msgs::ImageConstPtr& msg) // msg is the Image get from camera (raw)
-  	{
-	    // Convert ROS image (Topic) to OpenCV image (Ptr)	    
-    	    cv_bridge::CvImagePtr cv_OriginalImage_ptr;
-    	    try
+	/* Asociado a "TOPIC1_SUB__IMAGE_INPUT"  que obtiene la Imagen de la cámara (sin procesar) */
+	void imageCb(const sensor_msgs::ImageConstPtr& msg) //msg es la Imagen obtenida de la cámara (sin procesar))
+  							    //(MÉTODO CON TIPO DE MENSAJE IMAGECONSTPTR Y SE ALMACENA EN MSG)
+	{
+	    // Convertir ROS image (Topic) a OpenCV imagen (Ptr)	    
+    	    cv_bridge::CvImagePtr cv_OriginalImage_ptr;	//OBJETO DE LA CLASE CvImagePtr QUE PERTENECE A LA LIBRERIA cv_bidge
+    	    
+	    //HACE EL INTENTO, SINO INFORMA A TRAVES DEL CATCH EL ERROR QUE EXISTIO
+	    try
     	    {
       		cv_OriginalImage_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8); 
-    	    }
+    				//METODO toCvCopy toma la imagen crudo de la camara y lo pega en otra parte con formato bgr de 8 bits
+	    }
 	    catch (cv_bridge::Exception& e)
     	    {
-		// Print a error if it is detected
+		// Imprime un error si se detecta
       		ROS_ERROR("cv_bridge exception: %s", e.what());
       		return;
     	    }
 
 	    /****************************/ 
-	    /* digital image processing */
+	    /* Procesando imagen digital */
 	    /****************************/
 	   
-    	    // Convert data to cv::Mat class
-	    cv::Mat cvMat_Image = cv_OriginalImage_ptr->image;
+    	    // Convertir datos a cv::Mat clase
+	    cv::Mat cvMat_Image = cv_OriginalImage_ptr->image;	//Convierte los datos a la clase cv::Mat 
 
-	    // Transform Original Image to Gray format.
-	    cv::Mat cvMat_GrayImage;
+	    // Imagen original gris
+	    cv::Mat cvMat_GrayImage;	//Crea una variable de la clase Mat para escala de grises
 	    cv::cvtColor(cvMat_Image, cvMat_GrayImage, CV_BGR2GRAY); 
+					//Convierte una imagen de un espacio de color a otro (imagen de entrada, imagen de salida, codigo de conversión)
 
-	    // Reduce the noise applied a Gaussian filter, so we avoid false circle detection
+	    // Reducir el ruido aplicando un filtro gaussiano, así evitamos la detección de falsos círculos
 	    cv::Mat cvMat_GrayImage_filtered;
 	    cv::GaussianBlur(cvMat_GrayImage, cvMat_GrayImage_filtered, cv::Size(9, 9), 2, 2);
 		    
-	    // Apply the Hough Transform to find the circles
+	    // Aplicar la transformada de Hough para encontrar los círculos
 	    std::vector<cv::Vec3f> circles;
 	    cv::HoughCircles(cvMat_GrayImage_filtered, circles, CV_HOUGH_GRADIENT, 2, 20, 100, 155, 0, 0 );
-	    /* Example: HoughCircles(src_gray, circles, CV_HOUGH_GRADIENT, 1, src_gray.rows/8, 200, 100, 0, 0 );
-	       Parameters:
-	           src_gray: Input image (grayscale)
-    	           circles: A vector that stores sets of 3 values: x_{c}, y_{c}, r for each detected circle.
-	     	   CV_HOUGH_GRADIENT: Define the detection method. Currently this is the only one available in OpenCV
-	           dp = 1: The inverse ratio of resolution TODO
-	           min_dist = src_gray.rows/8: Minimum distance between detected centers TODO
-	     	   param_1 = Upper threshold for the internal Canny edge detector TODO
-	           param_2 = Threshold for center detection. TODO
-    	           min_radius = 0: Minimum radio to be detected. If unknown, put zero as default.
-    	          max_radius = 0: Maximum radius to be detected. If unknown, put zero as default */
+	    /* Ejemplo: HoughCircles(src_gray, circles, CV_HOUGH_GRADIENT, 1, src_gray.rows/8, 200, 100, 0, 0 );
+	       Parametros:
+	           src_gray: Agrega imagen escala de grices
+    	           circles: Un vector que almacena conjuntos de 3 valores: x_{c}, y_{c}, r para cada círculo detectado.
+	     	   CV_HOUGH_GRADIENT: Definir el método de detección. Actualmente es el único disponible en OpenCV
+	           dp = 1: La relación inversa de la resolución TODO
+	           min_dist = src_gray.rows/8: Distancia mínima entre los centros detectados TODO
+	     	   param_1 = Umbral superior para el detector de bordes Canny interno TODO
+	           param_2 = Umbral para la detección del centro. TODO
+    	           min_radius = 0: Radio mínimo a detectar. Si se desconoce, poner cero por defecto.
+    	          max_radius = 0: Radio máximo a detectar. Si se desconoce, poner cero por defecto */
 	  
-	    // Circles detected
-	    for(size_t i = 0; i < circles.size(); i++) //size_t is a variable which can store the maximum size of a theoretically possible object, in this case the length of "i" (unknown size)  
+	    // Circulos detectados For hasta la tamaño
+	    for(size_t i = 0; i < circles.size(); i++) //size_t es una variable que puede almacenar el tamaño máximo de un objeto teóricamente posible, en este caso la longitud de "i" (tamaño desconocido)  
 	    {
-		// Draw circles over the original image
+		// Dibuja los circulos en la imagen original
 		cv::Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
  		int radius = cvRound(circles[i][2]);
-   		circle(cvMat_Image, center, 3, cv::Scalar(0,255,0), -1, 8, 0 ); // circle center (with radius=3, Color green)
-   		circle(cvMat_Image, center, radius, cv::Scalar(0,0,255), 3, 8, 0 ); // circle outline (With real radius, Color red)
+   		circle(cvMat_Image, center, 3, cv::Scalar(0,255,0), -1, 8, 0 ); // centro del círculo (con radio=3, color verde)
+   		circle(cvMat_Image, center, radius, cv::Scalar(0,0,255), 3, 8, 0 ); // contorno del círculo (con radio real, color rojo)
 
 		/* circle(Mat& img, Point center, int radius, const Scalar& color, int thickness=1, int lineType=8, int shift=0)
-		   Parameters:
-		       img – Image where the circle is drawn.
-		       center – Center of the circle.
-    		       radius – Radius of the circle.
-    		       color – Circle color.
-    		       thickness – Thickness of the circle outline. If it's negative thickness means that a filled circle is to be drawn.
-    		       lineType – Type of the circle boundary. See the line() description. Default 8
-    		       shift – Number of fractional bits in the coordinates of the center and in the radius value. Deafult 0*/
+		   Parametros
+		       img – Imagen donde se dibuja el círculo.
+		       center – Centro del círculo.
+    		       radius – Radio del círculo.
+    		       color – Color del círculo.
+    		       thickness – Grosor del contorno del círculo. Si el grosor es negativo significa que se dibujará un círculo relleno.
+    		       lineType – Tipo de límite del círculo. Véase la descripción de line(). Por defecto 8
+    		       shift – Número de bits fraccionarios en las coordenadas del centro y en el valor del radio. Sordos 0*/
 
-		// Print terminal 
+		// imprime en el terminal 
 		ROS_INFO("Circle detected #%d / %d: ", int(i)+1, (int)circles.size());
 		ROS_INFO("    x=%d, y=%d, r=%d: ", cvRound(circles[i][0]), cvRound(circles[i][1]), cvRound(circles[i][2]));
       	    }
 
 	    /*********************************/ 
-	    /* END: digital image processing */
+	    /* FIN: Procesando imagen digital */
 	    /*********************************/
 
-    	    // Update GUI Window1 - Original Image
+    	    // Arreglo GUI Window1 - Imagen Original
    	    cv::imshow(OPENCV_WINDOW1, cvMat_Image);
     	    cv::waitKey(3);
 
-	    // Update GUI Window2 - Filter applied
+	    // Arreglo GUI Window2 - Filtro G aplicado
    	    cv::imshow(OPENCV_WINDOW2, cvMat_GrayImage_filtered);
 	    cv::waitKey(3);
 	}
@@ -167,13 +176,13 @@ class ImageConverter
 //***Main***
 int main(int argc, char** argv)
 {
-    // Init ROS 
-    ros::init(argc, argv, NODE_NAME);
+    // Iniciar ROS 
+    ros::init(argc, argv, NODE_NAME);	//Inicializar nodo
   
-    // Init object from class ImageConverter, defined above
-    ImageConverter ic;
-
-    // While true. Getting data from subscribe Topic
-    ros::spin();
+    // Iniciar objeto de la clase ImageConverter, definido antes
+    ImageConverter ic;	//Creación de objeto de la clase ImageConverter
+	
+     // While true. Obteniendo datos del Topic suscriptor
+    ros::spin();	//Bloqueo del codigo espera de recibir los nod susc
     return 0;
 }
