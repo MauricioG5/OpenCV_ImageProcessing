@@ -8,4 +8,5 @@ The following templates, contained on *src* folder, are the base for this projec
 , drawing an example circle, showing the processed image and publishing it trough a ROS topic, for wich it is necessary to convert to ROS format again.
 2. opencv_template_node_hh: This template is pretty the same than the previous one, but implementing some defines and improving the original documentation.
 3. opencv_grayImage_hh: This template shows how to convert an RGB color image to a gray scale one, for wich it uses cvtcolor function.
-4. 
+4. opencv_smoothingImages_hh: The objective of this template is to reduce the size of the image, it helps to reduce the time needed to process the image, due to a reduction on its resolution and it serves to avoid false positives on face and eyes detection.
+5. 
