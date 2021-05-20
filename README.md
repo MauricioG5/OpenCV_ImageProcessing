@@ -16,6 +16,8 @@ The following templates, contained on *src* folder, are the base for this projec
 
 > $ rosrun <folder_name>  <template_name>.cpp
 
-# Author
+# Authors
 
 - Mauricio Gómez Menjura
+- Eymer S. Tapias
+- Nikcolas Rojas
