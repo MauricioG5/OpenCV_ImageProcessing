@@ -14,7 +14,7 @@ The following templates, contained on *src* folder, are the base for this projec
 
 **For executing this templates, this line must be executed from the console:**
 
-> rosrun <folder_name>  <template_name>.cpp
+> $ rosrun <folder_name>  <template_name>.cpp
 
 # Author
 
