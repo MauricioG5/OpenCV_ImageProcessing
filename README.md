@@ -25,6 +25,7 @@ For executing the face and eyes recognition package, you must first install some
  Change  your file direction on the following lines>
 
 > std::string face_cascade_name = "/home/mauricio/opencv/src/opencv_example/src/haarcascade_frontalface_alt.xml"; 
+
 > std::string eyes_cascade_name = "/home/mauricio/opencv/src/opencv_example/src/haarcascade_eye_tree_eyeglasses.xml";
 
 # Authors
