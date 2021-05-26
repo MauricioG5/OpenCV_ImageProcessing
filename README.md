@@ -16,6 +16,17 @@ The following templates, contained on *src* folder, are the base for this projec
 
 > $ rosrun <folder_name>  <template_name>.cpp
 
+**Face and eyes recognition**
+
+For executing the face and eyes recognition package, you must first install some needed dependences with the following instruction:
+
+> $ sudo apt-get install build-essential libgtk2.0-dev libjpeg-dev libtiff4-dev libjasper-dev libopenexr-dev cmake python-dev python-numpy python-tk libtbb-dev libeigen3-dev yasm libfaac-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev libvorbis-dev libxvidcore-dev libx264-dev libqt4-dev libqt4-opengl-dev sphinx-common texlive-latex-extra libv4l-dev libdc1394-22-dev libavcodec-dev libavformat-dev libswscale-dev default-jdk ant libvtk5-qt4-dev
+
+ Change  your file direction on the following lines>
+
+> std::string face_cascade_name = "/home/mauricio/opencv/src/opencv_example/src/haarcascade_frontalface_alt.xml"; 
+> std::string eyes_cascade_name = "/home/mauricio/opencv/src/opencv_example/src/haarcascade_eye_tree_eyeglasses.xml";
+
 # Authors
 
 - Mauricio Gómez Menjura
