@@ -39,9 +39,9 @@ The following templates are the base for this project:
 
 > $ rosrun <folder_name>  <template_name>.cpp
 
-## **Face and eyes recognition**
+# **Face and eyes recognition**
 
-# Some needed changes before running main program
+## Some needed changes before running main program
 
  - Change  your XML file direction (opencv-2.4.9/data/haarcascades) on the following lines:
 
@@ -49,9 +49,13 @@ The following templates are the base for this project:
 
 > std::string eyes_cascade_name = "/home/mauricio/opencv/src/opencv_example/src/haarcascade_eye_tree_eyeglasses.xml";
 
+## Execution
+
 To execute the program, run the following command:
 
 > roslaunch opencv_example opencv_example_testing.launch 
+
+## Extra
 
 If you want to add any other node on the package, you must write this on opencv/src/opencv_example/CMakeList.txt:
 
@@ -59,6 +63,8 @@ If you want to add any other node on the package, you must write this on opencv/
   target_link_libraries(<file_name>
    ${OpenCV_LIBRARIES} # OPENCV
    ${catkin_LIBRARIES} # dejarlo
+
+
 
 **General stability depends on enviroment illumination**
 
