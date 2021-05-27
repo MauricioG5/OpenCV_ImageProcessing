@@ -43,7 +43,7 @@ The following templates are the base for this project:
 
 ## Some needed changes before running main program
 
- - Change  your XML file direction (opencv-2.4.9/data/haarcascades) on the following lines:
+ - On Opencv_Parcial, change  your XML file direction (opencv-2.4.9/data/haarcascades) on the following lines:
 
 > std::string face_cascade_name = "/home/mauricio/opencv/src/opencv_example/src/haarcascade_frontalface_alt.xml"; 
 
