@@ -1,6 +1,27 @@
-# OpenCV_ImageProcessing
+# Installation
+
+- Before OpenCV installation, you must first install some needed dependences with the following instruction:
+
+> $ sudo apt-get install build-essential libgtk2.0-dev libjpeg-dev libtiff4-dev libjasper-dev libopenexr-dev cmake python-dev python-numpy python-tk libtbb-dev libeigen3-dev yasm libfaac-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev libvorbis-dev libxvidcore-dev libx264-dev libqt4-dev libqt4-opengl-dev sphinx-common texlive-latex-extra libv4l-dev libdc1394-22-dev libavcodec-dev libavformat-dev libswscale-dev default-jdk ant libvtk5-qt4-dev
+
+- For opencv installation, type on your console:
+
+> 		$ cd ~
+>    $ wget http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.4.9/opencv-2.4.9.zip
+>    $ unzip opencv-2.4.9.zip
+
+## Workspace compilation
+
+It is needed to compile the workspace before running face and eyes recognition. For doing it, first go to downloaded workspace using
+> cd opencv
+
+Then run this command to make the compilation wich will generate *build* and *devel* folders, needed to run the program.
+
+> catkin_make
 
 This project is intended to detect the face and eyes of a person getting the images from PC camera and sending it through a ROS topic. OpenCV 2.4.9 is the library that will be used for doing it.
+
+## Templates
 
 The following templates are the base for this project:
 
@@ -16,29 +37,9 @@ The following templates are the base for this project:
 
 > $ rosrun <folder_name>  <template_name>.cpp
 
-# **Face and eyes recognition**
+## **Face and eyes recognition**
 
-# Installation
-
-
-- Before OpenCV installation, you must first install some needed dependences with the following instruction:
-
-> $ sudo apt-get install build-essential libgtk2.0-dev libjpeg-dev libtiff4-dev libjasper-dev libopenexr-dev cmake python-dev python-numpy python-tk libtbb-dev libeigen3-dev yasm libfaac-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev libvorbis-dev libxvidcore-dev libx264-dev libqt4-dev libqt4-opengl-dev sphinx-common texlive-latex-extra libv4l-dev libdc1394-22-dev libavcodec-dev libavformat-dev libswscale-dev default-jdk ant libvtk5-qt4-dev
-
-- For opencv installation, type on your console:
-
-> 		$ cd ~
->    $ wget http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.4.9/opencv-2.4.9.zip
->    $ unzip opencv-2.4.9.zip
-
-# Workspace compilation
-
-It is needed to compile the workspace before running face and eyes recognition. For doing it, first go to downloaded workspace using
-> cd opencv
-
-Then run this command to make the compilation wich will generate *build* and *devel* folders, needed to run the program.
-
-> catkin_make
+# Some needed changes before running main program
 
  - Change  your XML file direction (opencv-2.4.9/data/haarcascades) on the following lines:
 
