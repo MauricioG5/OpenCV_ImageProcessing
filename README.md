@@ -60,9 +60,12 @@ To execute the program, run the following command:
 If you want to add any other node on the package, you must write this on opencv/src/opencv_example/CMakeList.txt:
 
 > add_executable(<file_name> src/<file_name>.cpp)
-  target_link_libraries(<file_name>
-   ${OpenCV_LIBRARIES} # OPENCV
-   ${catkin_LIBRARIES} # dejarlo
+> 
+> target_link_libraries(<file_name>
+> 
+> ${OpenCV_LIBRARIES} # OPENCV
+> 
+> ${catkin_LIBRARIES} # dejarlo
 
 
 
