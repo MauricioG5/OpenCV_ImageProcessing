@@ -40,6 +40,7 @@ If you want to add any other node on the package, you must write this on opencv/
    ${catkin_LIBRARIES} # dejarlo
 
 **General stability depends on enviroment illumination**
+
 **Eyes recognition stability depends on distance from the camera**
 
 
