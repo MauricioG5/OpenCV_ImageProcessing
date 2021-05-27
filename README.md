@@ -2,7 +2,7 @@
 
 This project is intended to detect the face and eyes of a person getting the images from PC camera and sending it through a ROS topic. OpenCV 2.4.9 is the library that will be used for doing it.
 
-The following templates, contained on *src* folder, are the base for this project:
+The following templates are the base for this project:
 
 1. opencv_template_node: This is the base template wich serves as an example of how OpenCV works with images, it contains the basic processing from taking the images by subscribing to camera node, converting them from ROS format to OpenCV format
 , drawing an example circle, showing the processed image and publishing it trough a ROS topic, for wich it is necessary to convert to ROS format again.
@@ -18,11 +18,15 @@ The following templates, contained on *src* folder, are the base for this projec
 
 # **Face and eyes recognition**
 
-For executing the face and eyes recognition package, you must first install some needed dependences with the following instruction:
+# Installation
+
+- For executing the face and eyes recognition package, you must first install some needed dependences with the following instruction:
 
 > $ sudo apt-get install build-essential libgtk2.0-dev libjpeg-dev libtiff4-dev libjasper-dev libopenexr-dev cmake python-dev python-numpy python-tk libtbb-dev libeigen3-dev yasm libfaac-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev libvorbis-dev libxvidcore-dev libx264-dev libqt4-dev libqt4-opengl-dev sphinx-common texlive-latex-extra libv4l-dev libdc1394-22-dev libavcodec-dev libavformat-dev libswscale-dev default-jdk ant libvtk5-qt4-dev
 
- Change  your XML file direction (opencv-2.4.9/data/haarcascades) on the following lines:
+- Create a folder called opencv and load **WIP**
+
+ - Change  your XML file direction (opencv-2.4.9/data/haarcascades) on the following lines:
 
 > std::string face_cascade_name = "/home/mauricio/opencv/src/opencv_example/src/haarcascade_frontalface_alt.xml"; 
 
