@@ -6,9 +6,9 @@
 
 - For opencv installation, type on your console:
 
-> 		$ cd ~
->    $ wget http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.4.9/opencv-2.4.9.zip
->    $ unzip opencv-2.4.9.zip
+> $ cd ~
+> $ wget http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.4.9/opencv-2.4.9.zip
+> $ unzip opencv-2.4.9.zip
 
 ## Workspace compilation
 
