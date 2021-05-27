@@ -1,3 +1,5 @@
+**This project is intended to detect the face and eyes of a person getting the images from PC camera and sending it through a ROS topic. OpenCV 2.4.9 is the library that will be used for doing it.**
+
 # Installation
 
 - Before OpenCV installation, you must first install some needed dependences with the following instruction:
@@ -20,8 +22,6 @@ It is needed to compile the workspace before running face and eyes recognition. 
 Then run this command to make the compilation wich will generate *build* and *devel* folders, needed to run the program.
 
 > catkin_make
-
-This project is intended to detect the face and eyes of a person getting the images from PC camera and sending it through a ROS topic. OpenCV 2.4.9 is the library that will be used for doing it.
 
 ## Templates
 
